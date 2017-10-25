@@ -6,7 +6,7 @@ export PG_RUNDIR=/run/postgresql
 export PG_LOGDIR=/var/log/postgresql
 export PG_CERTDIR=/etc/postgresql/certs
 
-export PG_ETCDIR=${PG_HOME}/${PG_VERSION}/main
+export PG_ETCDIR=/etc/postgresql/${PG_VERSION}/main
 export PG_BINDIR=/usr/lib/postgresql/${PG_VERSION}/bin
 export PG_DATADIR=${PG_HOME}/${PG_VERSION}/main
 
