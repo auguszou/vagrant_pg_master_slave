@@ -1,11 +1,3 @@
-# apt-get install postgresql
-# su postgres
- 
-#psql postgres;
- 
-#alter user postgres with password '3416763';
-
-
 export PG_APP_HOME="/etc/docker-postgresql"
 export PG_VERSION=9.6
 export PG_USER=postgres
@@ -14,6 +6,7 @@ export PG_RUNDIR=/run/postgresql
 export PG_LOGDIR=/var/log/postgresql
 export PG_CERTDIR=/etc/postgresql/certs
 
+export PG_ETCDIR=${PG_HOME}/${PG_VERSION}/main
 export PG_BINDIR=/usr/lib/postgresql/${PG_VERSION}/bin
 export PG_DATADIR=${PG_HOME}/${PG_VERSION}/main
 
@@ -31,3 +24,7 @@ rm -rf /var/lib/apt/lists/*
 cmd="alter user postgres with password '123';"
 su - ${PG_USER} -c "psql ${PG_USER} -U ${PG_USER} -c \"${cmd}\""
 
+sed -i 's/^listen_addresses.*$/listen_addresses = '*'/g' ${PG_ETCDIR}/postgresql.conf
+echo "\nhost  all  all 0.0.0.0/0 md5" >> ${PG_ETCDIR}/pg_hba.conf
+
+/etc/init.d/postgres restart
