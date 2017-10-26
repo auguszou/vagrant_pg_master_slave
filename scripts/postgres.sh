@@ -16,6 +16,7 @@ cp ${PG_SHAREDIR}/postgresql.conf.sample ${PG_ETCDIR}/postgresql.conf
 cp ${PG_SHAREDIR}/pg_hba.conf.sample ${PG_ETCDIR}/pg_hba.conf
 cp ${PG_SHAREDIR}/pg_ident.conf.sample ${PG_ETCDIR}/pg_ident.conf
 
+apt-get clean && apt-get autoclean
 rm -rf /var/lib/apt/lists/*
 
 update_pwd="alter user postgres with encrypted password '${PG_PASSWORD}';"
@@ -28,6 +29,6 @@ echo "\nhost  all  all 192.168.2.0/24 md5" >> ${PG_ETCDIR}/pg_hba.conf
 
 sed -i 's/^listen_addresses.*$/listen_addresses = '*'/g' ${PG_ETCDIR}/postgresql.conf
 
-su - ${PG_USR} -l -c "${PG_BINDIR}/pg_ctl -D ${PG_DATADIR} -w start"
+# su - ${PG_USR} -l -c "${PG_BINDIR}/pg_ctl -D ${PG_DATADIR} -w start"
 
 /etc/init.d/postgresql stop
