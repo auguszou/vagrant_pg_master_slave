@@ -8,9 +8,6 @@ export PG_VERSION=9.6
 export PG_USER=postgres
 export PG_PASSWORD=123
 export PG_HOME=/var/lib/postgresql
-export PG_RUNDIR=/run/postgresql
-export PG_LOGDIR=/var/log/postgresql
-export PG_CERTDIR=/etc/postgresql/certs
 
 export PG_SHAREDIR=/usr/share/postgresql/${PG_VERSION}
 export PG_ETCDIR=/etc/postgresql/${PG_VERSION}/main
