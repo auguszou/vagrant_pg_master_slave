@@ -1,3 +1,5 @@
+source /vagrant/scripts/env.sh
+
 sed -i 's/^max_connections.*$/max_connections = 1024/g' ${PG_ETCDIR}/postgresql.conf
 sed -i 's/^hot_standby.*$/hot_standby = on/g' ${PG_ETCDIR}/postgresql.conf
 sed -i 's/^max_standby_streaming_delay.*$/max_standby_streaming_delay = 30s/g' ${PG_ETCDIR}/postgresql.conf
@@ -15,7 +17,7 @@ sed -i "s/^primary_conninfo.*$/primary_conninfo = 'host=${PG_MASTER_HOST} port=$
 
 sshpass -p ${MASTER_ROOT_PASSWORD} rsync -cva --inplace --exclude=*pg_xlog* ${PG_MASTER_HOST}:${PG_DATADIR} ${PG_DATADIR}
 
-/etc/init.d/postgres restart
+/etc/init.d/postgresql restart
 
 export cmd_ssh="sshpass -p ${MASTER_ROOT_PASSWORD} ssh -o StrictHostKeyChecking=no -o CheckHostIP=no -o UserKnownHostsFile=/dev/null root@${PG_MASTER_HOST}"
 ${cmd_ssh} /etc/init.d/postgresql restart
