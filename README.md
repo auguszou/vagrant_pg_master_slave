@@ -6,6 +6,6 @@ Postgres master-slave backup
 
 1. login master1, `vagrant ssh master1`
 
-1. login pg, `psql dbname -U username`
+1. login pg, `psql postgres -U postgres -h localhost`
 
 1. check replication status, `select * from pg_stat_replication;`

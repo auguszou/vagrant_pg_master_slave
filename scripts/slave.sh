@@ -15,9 +15,16 @@ sed -i "s/^[#]recovery_target_timeline.*$/recovery_target_timeline = 'latest'/g"
 sed -i "s/^[#]primary_conninfo.*$/primary_conninfo = 'host=${PG_MASTER_HOST} port=${PG_MASTER_POST} user=${PG_DUPLICATE_USER} password=${PG_DUPLICATE_PASSWORD}'/g" ${PG_ETCDIR}/recovery.conf
 # sed -i "s/^[#]sslmode.*$/sslmode = 'on'/g" ${PG_DATADIR}/recovery.conf
 
+mkdir -p ~/.ssh/
+cat > ~/.ssh/config <<EOF
+Host 192.168.2.*
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
+    CheckHostIP=no
+EOF
+
 sshpass -p ${MASTER_ROOT_PASSWORD} rsync -avz --inplace --exclude=*pg_xlog* root@${PG_MASTER_HOST}:${PG_DATADIR} ${PG_DATADIR}
 
 /etc/init.d/postgresql restart
 
-export cmd_ssh="sshpass -p ${MASTER_ROOT_PASSWORD} ssh -o StrictHostKeyChecking=no -o CheckHostIP=no -o UserKnownHostsFile=/dev/null root@${PG_MASTER_HOST}"
-${cmd_ssh} /etc/init.d/postgresql restart
+sshpass -p ${MASTER_ROOT_PASSWORD} ssh root@${PG_MASTER_HOST} /etc/init.d/postgresql restart
