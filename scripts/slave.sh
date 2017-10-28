@@ -36,7 +36,9 @@ sed -i "s/^[#]recovery_target_timeline.*$/recovery_target_timeline = 'latest'/g"
 sed -i "s/^[#]primary_conninfo.*$/primary_conninfo = 'host=${PG_MASTER_HOST} port=${PG_MASTER_POST} user=${PG_DUPLICATE_USER} password=${PG_DUPLICATE_PASSWORD}'/g" ${PG_DATADIR}/recovery.conf
 # sed -i "s/^[#]sslmode.*$/sslmode = 'on'/g" ${PG_DATADIR}/recovery.conf
 sed -i "s/^[#]restore_command.*$/restore_command = 'cp \/var\/lib\/postgresql\/${PG_VERSION}\/main\/archive\/%f %p'/g" ${PG_DATADIR}/recovery.conf
-sed -i "s/^[#]trigger_file.*$/trigger_file = \/var\/lib\/postgresql\/${PG_VERSION}\/main\/postgresql.trigger.5432'/g" ${PG_DATADIR}/recovery.conf
+sed -i "s/^[#]trigger_file.*$/trigger_file = '\/var\/lib\/postgresql\/${PG_VERSION}\/main\/postgresql.trigger.5432'/g" ${PG_DATADIR}/recovery.conf
+
+chown -R postgres:postgres ${PG_DATADIR}
 
 /etc/init.d/postgresql restart
 
