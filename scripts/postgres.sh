@@ -19,16 +19,8 @@ chown -R ${PG_USER}:${PG_USER} ${PG_HOME}
 apt-get clean && apt-get autoclean
 rm -rf /var/lib/apt/lists/*
 
-update_pwd="alter user postgres with encrypted password '${PG_PASSWORD}';"
-PGPASSWORD=${PG_PASSWORD} sudo -u postgres psql -d postgres -U ${PG_USER} -w -a -c "${update_pwd}"
-
-add_user="create role ${PG_DUPLICATE_USER} with login createdb replication encrypted password '${PG_DUPLICATE_PASSWORD}';"
-PGPASSWORD=${PG_PASSWORD} sudo -u postgres psql -d postgres -U ${PG_USER} -w -a -c "${add_user}"
-
-echo "host  all  all 192.168.2.0/24 md5" >> ${PG_ETCDIR}/pg_hba.conf
-
 sed -i "s/^[#]listen_addresses.*$/listen_addresses = '*'/g" ${PG_ETCDIR}/postgresql.conf
 
 # su - ${PG_USR} -l -c "${PG_BINDIR}/pg_ctl -D ${PG_DATADIR} -w start"
 
-/etc/init.d/postgresql stop
+# /etc/init.d/postgresql stop
