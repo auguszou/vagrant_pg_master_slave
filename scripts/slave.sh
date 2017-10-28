@@ -18,15 +18,15 @@ Host 192.168.2.*
     CheckHostIP=no
 EOF
 
-start_backup="SELECT pg_start_backup('mybackup_label', true);"
-PGPASSWORD=${PG_PASSWORD} psql -d postgres -U ${PG_USER} -h ${PG_MASTER_HOST} -w -a -c "${start_backup}"
+#start_backup="SELECT pg_start_backup('mybackup_label', true);"
+#PGPASSWORD=${PG_PASSWORD} psql -d postgres -U ${PG_USER} -h ${PG_MASTER_HOST} -w -a -c "${start_backup}"
 
-sshpass -p ${MASTER_ROOT_PASSWORD} rsync -ac --exclude=*pg_xlog* --exclude postmaster.pid root@${PG_MASTER_HOST}:${PG_DATADIR} ${PG_DATADIR}
+#sshpass -p ${MASTER_ROOT_PASSWORD} rsync -ac --exclude=*pg_xlog* --exclude postmaster.pid root@${PG_MASTER_HOST}:${PG_DATADIR} ${PG_DATADIR}
 
-stop_backup="SELECT pg_stop_backup();"
-PGPASSWORD=${PG_PASSWORD} psql -d postgres -U ${PG_USER} -h ${PG_MASTER_HOST} -w -a -c "${stop_backup}"
+#stop_backup="SELECT pg_stop_backup();"
+#PGPASSWORD=${PG_PASSWORD} psql -d postgres -U ${PG_USER} -h ${PG_MASTER_HOST} -w -a -c "${stop_backup}"
 
-rm -rf ${PG_DATADIR}/*
+#rm -rf ${PG_DATADIR}/*
 PGPASSWORD=${PG_PASSWORD} pg_basebackup -D ${PG_DATADIR} -h ${PG_MASTER_HOST} -P -U ${PG_DUPLICATE_USER} --xlog-method=stream
 
 cp ${PG_SHAREDIR}/recovery.conf.sample ${PG_DATADIR}/recovery.conf
