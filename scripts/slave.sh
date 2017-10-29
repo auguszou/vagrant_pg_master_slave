@@ -26,7 +26,7 @@ EOF
 #stop_backup="SELECT pg_stop_backup();"
 #PGPASSWORD=${PG_PASSWORD} psql -d postgres -U ${PG_USER} -h ${PG_MASTER_HOST} -w -a -c "${stop_backup}"
 
-#rm -rf ${PG_DATADIR}/*
+rm -rf ${PG_DATADIR}/*
 PGPASSWORD=${PG_PASSWORD} pg_basebackup -D ${PG_DATADIR} -h ${PG_MASTER_HOST} -P -U ${PG_DUPLICATE_USER} --xlog-method=stream
 
 cp ${PG_SHAREDIR}/recovery.conf.sample ${PG_DATADIR}/recovery.conf
